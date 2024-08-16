@@ -7,5 +7,6 @@ webpack:
         publicPath: dist/
     devServer:
         enabled: %debugMode% # default
-        url: http://localhost:3000
+        url: http://web:3000
+        publicUrl: http://localhost:3000
         timeout: 0.1

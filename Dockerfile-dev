@@ -2,8 +2,11 @@ FROM php:8.2-apache
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/www
 
+RUN apt-get update && apt-get install -y curl gnupg git wget
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update \
-    && apt-get install -y git wget gnupg libcurl4-openssl-dev libxslt-dev graphviz zip g++ libpcre3-dev libgd-dev curl build-essential unzip gcc make autoconf libc-dev pkg-config libssl-dev redis-tools libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev zlib1g-dev libicu-dev libzip-dev libc-client-dev libkrb5-dev libonig-dev psmisc \
+    && apt-get install -y nodejs yarn libcurl4-openssl-dev libxslt-dev graphviz zip g++ libpcre3-dev libgd-dev build-essential unzip gcc make autoconf libc-dev pkg-config libssl-dev redis-tools libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev zlib1g-dev libicu-dev libzip-dev libc-client-dev libkrb5-dev libonig-dev psmisc \
     && apt-get clean \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install -j$(nproc) pdo_mysql \

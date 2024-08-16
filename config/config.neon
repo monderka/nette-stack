@@ -23,5 +23,9 @@ latte:
     extensions:
         - App\Common\Extensions\LatteExtension
 
+session:
+    debugger: %debugMode%
+    autoStart: always
+
 services:
     - App\Common\Factories\RouterFactory::createRouter

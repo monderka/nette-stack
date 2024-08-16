@@ -11,5 +11,5 @@ chmod 0755 bin/*
 
 composer clear
 composer install
-
+yarn start &
 apache2-foreground
