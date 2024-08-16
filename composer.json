@@ -1,0 +1,42 @@
+{
+    "name": "monderka/nette-stack",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    },
+    "authors": [
+        {
+            "name": "Milan Onderka",
+            "email": "milan_onderka@sofito.studio"
+        }
+    ],
+    "require": {
+        "php": ">= 8.1",
+        "nettrine/orm": "^0.8.4",
+        "nettrine/migrations": "^0.9.1",
+        "nettrine/dbal": "^0.8.2",
+        "nettrine/fixtures": "^0.7.2",
+        "contributte/console": "^0.10.1",
+        "contributte/console-extra": "^0.8.0",
+        "contributte/rabbitmq": "^10.0",
+        "contributte/translation": "^2.0",
+        "contributte/redis": "^0.6.0",
+        "contributte/webpack": "^2.3",
+        "contributte/utils": "^0.7.0",
+        "contributte/forms": "^0.5.1",
+        "contributte/flysystem": "^0.3.0",
+        "nette/application": "^3.2",
+        "nette/bootstrap": "^3.2",
+        "nette/di": "^3.2",
+        "nette/forms": "^3.2",
+        "nette/http": "^3.3",
+        "nette/mail": "^4.0",
+        "nette/security": "^3.2",
+        "nette/utils": "^4.0",
+        "latte/latte": "^3.0",
+        "tracy/tracy": "^2.10",
+        "contributte/cache": "^0.6.0"
+    }
+}

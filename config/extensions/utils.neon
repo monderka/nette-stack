@@ -1,0 +1,2 @@
+extensions:
+    datetime: Contributte\Utils\DI\DateTimeFactoryExtension

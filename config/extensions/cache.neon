@@ -1,0 +1,6 @@
+extensions:
+    cache.factory: Contributte\Cache\DI\CacheFactoryExtension
+    cache.debug: Contributte\Cache\DI\DebugStorageExtension
+
+cache.debug:
+	debug: %debugMode%

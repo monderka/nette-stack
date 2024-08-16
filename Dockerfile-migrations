@@ -1,0 +1,35 @@
+FROM php:8.2-cli
+
+RUN apt-get update \
+    && apt-get install -y git wget gnupg libcurl4-openssl-dev libxslt-dev graphviz zip g++ libpcre3-dev libgd-dev curl build-essential unzip gcc make autoconf libc-dev pkg-config libssl-dev redis-tools libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev zlib1g-dev libicu-dev libzip-dev libc-client-dev libkrb5-dev libonig-dev psmisc \
+    && apt-get clean \
+    && docker-php-ext-install -j$(nproc) intl \
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) bcmath \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install -j$(nproc) soap \
+    && docker-php-ext-install -j$(nproc) pcntl \
+    && docker-php-ext-install -j$(nproc) calendar \
+    && docker-php-ext-install -j$(nproc) zip \
+    && docker-php-ext-install -j$(nproc) xsl \
+    && docker-php-ext-install -j$(nproc) gettext \
+    && docker-php-ext-install -j$(nproc) opcache \
+    && pecl install mcrypt \
+    && docker-php-ext-enable mcrypt \
+
+RUN echo "memory_limit = -1;" > $PHP_INI_DIR/conf.d/memory_limit.ini
+RUN echo "max_execution_time = 6000" > $PHP_INI_DIR/conf.d/upload.ini
+
+RUN echo "[Date]\n\
+date.timezone = Europe/Prague" > $PHP_INI_DIR/conf.d/timezone.ini
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . /var/www/html
+
+ENTRYPOINT ["./.docker/migrations.sh"]
+
+EXPOSE 443

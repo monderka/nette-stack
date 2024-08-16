@@ -1,0 +1,20 @@
+extensions:
+    redis: Contributte\Redis\DI\RedisExtension
+
+redis:
+    # Setup Tracy panel
+    debug: %debugMode%
+    # Default client factory
+    clientFactory: Predis\Client
+
+    connection:
+        default:
+            uri: %env.REDIS_HOST%
+            sessions: false
+            storage: true
+            options: ['parameters': ['database': 0]]
+        session:
+            uri: %env.REDIS_HOST%
+            sessions: true
+            storage: false
+            options: ['parameters': ['database': 1]]

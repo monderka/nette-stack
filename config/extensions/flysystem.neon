@@ -1,0 +1,10 @@
+extensions:
+    flysystem: Contributte\Flysystem\DI\FlysystemExtension
+
+flysystem:
+    filesystem:
+        default:
+            adapter: League\Flysystem\Local\LocalFilesystemAdapter(%env.FLYSYSTEM_STORAGE_PATH%)
+            autowired: true
+            config: # $config parameter of League\Flysystem\Filesystem
+                 - disable_asserts: true

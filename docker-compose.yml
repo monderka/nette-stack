@@ -1,0 +1,123 @@
+version: '3.6'
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev
+    ports:
+      - "8080:80"
+      - "8443:443"
+      - "3000:3000"
+    volumes:
+      - "./:/var/www/html"
+    links:
+      - mariadb
+      #- rabbitmq
+      #- redis
+      #- mailhog
+    environment:
+      - DEBUG
+      - FLYSYSTEM_STORAGE_PATH
+      - REDIS_HOST
+      - RABBITMQ_HOST
+      - RABBITMQ_VHOST
+      - RABBITMQ_PORT
+      - RABBITMQ_USER
+      - RABBITMQ_PASSWORD
+      - DB_DRIVER
+      - DB_HOST
+      - DB_PORT
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+    depends_on:
+      mariadb:
+        condition: service_started
+      #rabbitmq:
+      #  condition: service_healthy
+      #redis:
+      #  condition: service_started
+      mailhog:
+        condition: service_started
+    networks:
+      - nette-stack
+    entrypoint: "./.docker/entrypoint.sh"
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    volumes:
+      - nette-stack_dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_czech_ci
+    networks:
+      - nette-stack
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "4200:8080"
+    environment:
+      ADMINER_DESIGN: pepa-linha
+    depends_on:
+      mariadb:
+        condition: service_started
+    networks:
+      - nette-stack
+
+  mailhog:
+    image: mailhog/mailhog
+    tty: true
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    restart: on-failure
+    networks:
+      - nette-stack
+
+  #rabbitmq:
+  #  hostname: rabbitmq
+  #  image: rabbitmq:management
+  #  environment:
+  #    - RABBITMQ_DEFAULT_VHOST
+  #    - RABBITMQ_DEFAULT_USER
+  #    - RABBITMQ_DEFAULT_PASS
+  #  ports:
+  #    - "5672:5672"
+  #    - "15672:15672"
+  #  volumes:
+  #    - nette-stack_rabbitmq_log:/var/log/rabbitmq
+  #    - nette-stack_rabbitmq_data:/var/lib/rabbitmq
+  #  networks:
+  #    - nette-stack
+  #  restart: always
+  #  healthcheck:
+  #    test: rabbitmq-diagnostics -q ping
+  #    interval: 10s
+  #    timeout: 10s
+  #    retries: 10
+  #    start_period: 5s
+
+  #redis:
+  #  image: redis:alpine
+  #  volumes:
+  #    - nette-stack_redis_data:/var/lib/redis
+  #  networks:
+  #    - nette-stack
+
+volumes:
+  nette-stack_dbdata:
+  #nette-stack_rabbitmq_log:
+  #nette-stack_rabbitmq_data:
+  #nette-stack_redis_data:
+
+networks:
+  nette-stack:

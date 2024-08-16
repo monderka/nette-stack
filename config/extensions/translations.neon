@@ -1,0 +1,11 @@
+extensions:
+    translation: Contributte\Translation\DI\TranslationExtension
+
+translation:
+	locales:
+		whitelist: [en, cz]
+		default: en
+		fallback: [en]
+	dirs:
+		- %appDir%/../lang
+	returnOriginalMessage: true

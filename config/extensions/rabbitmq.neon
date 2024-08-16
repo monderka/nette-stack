@@ -1,0 +1,27 @@
+extensions:
+	rabbitmq: Contributte\RabbitMQ\DI\RabbitMQExtension
+
+parameters:
+    rabbitmq:
+        queues:
+        exchanges:
+        producers:
+        consumers:
+
+rabbitmq:
+    connections:
+        default:
+            user: %env.RABBITMQ_USER%
+            password: %env.RABBITMQ_PASSWORD%
+            host: %env.RABBITMQ_HOST%
+            port: %env.RABBITMQ_PORT%
+            lazy: false
+
+    queues: %rabbitmq.queues%
+    exchanges: %rabbitmq.exchanges%
+    producers: %rabbitmq.producers%
+    consumers: %rabbitmq.consumers%
+
+tracy:
+	bar:
+		- Contributte\RabbitMQ\Diagnostics\BarPanel

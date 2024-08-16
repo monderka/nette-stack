@@ -1,0 +1,27 @@
+includes:
+    -   extensions/console.neon
+    -   extensions/cache.neon
+    -   extensions/utils.neon
+    -   extensions/webpack.neon
+    -   extensions/forms.neon
+    -   extensions/translations.neon
+    #-   extensions/flysystem.neon
+    #-   extensions/redis.neon
+    #-   extensions/rabbitmq.neon
+    -   extensions/doctrine.neon
+
+application:
+    errorPresenter:
+        4xx: Error:Error4xx
+        5xx: Error:Error5xx
+    mapping:
+        Front: App\FrontModule\UI\Presenters\**Presenter
+
+latte:
+    strictTypes: yes
+    strictParsing: yes
+    extensions:
+        - App\Common\Extensions\LatteExtension
+
+services:
+    - App\Common\Factories\RouterFactory::createRouter
